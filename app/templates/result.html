@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detection Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="title">📊 Analysis Results</h1>
+            <a href="/" class="back-link">← New Analysis</a>
+        </header>
+
+        <div class="results-container">
+            <div class="image-comparison">
+                <div class="image-card">
+                    <h2 class="image-title">Original Image</h2>
+                    <img src="{{ url_for('static', filename='uploads/' + original) }}" 
+                         class="result-image" 
+                         alt="Original blood cell image">
+                </div>
+                
+                <div class="image-card annotated">
+                    <h2 class="image-title">Detection Results</h2>
+                    <img src="{{ url_for('static', filename='uploads/' + annotated) }}" 
+                         class="result-image" 
+                         alt="Annotated blood cell image">
+                </div>
+            </div>
+
+            <div class="detections-box">
+                <h2 class="detections-title">Detected Elements</h2>
+                <div class="detections-list">
+                    {% for detection in detections %}
+                    <div class="detection-item">
+                        <span class="cell-type">{{ detection.class }}</span>
+                        <span class="confidence">{{ detection.confidence }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

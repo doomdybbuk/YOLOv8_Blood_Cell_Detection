@@ -1,0 +1,49 @@
+# .gitignore for YOLOv8 Blood Cell Detection
+
+# Local development
+venv/
+.env
+*.env
+*.bak
+*.tmp
+*.swp
+
+# Python
+__pycache__/
+*.py[cod]
+.python-version
+*.egg-info/
+dist/
+build/
+
+# Data and models
+/data/raw/
+/data/processed/
+/models/
+/runs/
+/app/static/uploads/*
+!app/static/uploads/.gitkeep
+
+# Training artifacts
+*.pt
+*.onnx
+*.engine
+
+# IDE
+.vscode/
+.idea/
+*.code-workspace
+
+# OS generated
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Logs and outputs
+*.log
+*.csv
+*.json
+
+# Local configuration
+*.local
+*.cfg

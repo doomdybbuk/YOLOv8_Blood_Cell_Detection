@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Cell Detection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="title">🔬 Blood Cell Analyzer</h1>
+            <p class="subtitle">Upload a blood smear image for analysis</p>
+        </header>
+
+        <div class="upload-card">
+            <form method="post" enctype="multipart/form-data" class="upload-form">
+                <div class="file-input-container">
+                    <input type="file" name="file" id="file" class="file-input" accept="image/*">
+                    <label for="file" class="file-label">
+                        <span class="upload-icon">📁</span>
+                        Choose Image
+                    </label>
+                </div>
+                <button type="submit" class="detect-button">
+                    <span class="button-text">Analyze Now</span>
+                    <div class="loading-spinner hidden"></div>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.querySelector('.file-input').addEventListener('change', function(e) {
+            const fileName = e.target.files[0]?.name || 'Choose Image';
+            document.querySelector('.file-label').textContent = fileName;
+        });
+
+        document.querySelector('.upload-form').addEventListener('submit', function() {
+            this.querySelector('.loading-spinner').classList.remove('hidden');
+            this.querySelector('.button-text').textContent = 'Analyzing...';
+        });
+    </script>
+</body>
+</html>
