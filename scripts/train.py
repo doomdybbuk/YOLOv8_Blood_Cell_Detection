@@ -11,7 +11,7 @@ model = YOLO("yolov8n.pt")
 
 results = model.train(
     data=DATA_YAML_PATH,
-    epochs=5,
+    epochs=100,
     imgsz=640,
     batch=16,
     name="blood_cell_detection",
