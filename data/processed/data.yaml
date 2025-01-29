@@ -1,0 +1,9 @@
+path: C:\Users\Manan Niklank Jain\OneDrive\Desktop\YOLOv8_Blood_Cell_Detection\data\processed
+train: images/train
+val: images/val
+test: images/test
+
+names:
+  0: RBC
+  1: WBC
+  2: Platelets

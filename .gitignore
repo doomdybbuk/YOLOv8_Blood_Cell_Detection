@@ -16,13 +16,6 @@ __pycache__/
 dist/
 build/
 
-# Data and models
-/data/raw/
-/data/processed/
-/models/
-/runs/
-/app/static/uploads/*
-!app/static/uploads/.gitkeep
 
 # Training artifacts
 *.pt
