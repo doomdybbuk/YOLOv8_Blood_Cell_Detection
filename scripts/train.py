@@ -12,7 +12,7 @@ if not os.path.exists(DATA_YAML_PATH):
     raise FileNotFoundError(f"Data YAML file not found at: {DATA_YAML_PATH}")
 
 # Initialize a YOLO model with the weights from the "yolov8n.pt" file
-model = YOLO("yolov8n.pt")
+model = YOLO("yolov8n.pt")  
 
 # Train the YOLO model on the data specified in the data YAML file
 results = model.train(

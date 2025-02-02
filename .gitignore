@@ -16,7 +16,6 @@ __pycache__/
 dist/
 build/
 
-
 # Training artifacts
 *.pt
 *.onnx

@@ -12,28 +12,40 @@
             <h1 class="title">📊 Analysis Results</h1>
             <a href="/" class="back-link">← New Analysis</a>
         </header>
-
         <div class="results-container">
-            <div class="image-comparison">
-                <div class="image-card">
-                    <h2 class="image-title">Original Image</h2>
-                    <img src="{{ url_for('static', filename='uploads/' + original) }}" 
-                         class="result-image" 
-                         alt="Original blood cell image">
+            <div class="image-card annotated">
+                <h2 class="image-title">Detection Results</h2>
+                <img src="{{ url_for('static', filename='uploads/' + annotated) }}" 
+                     class="result-image" 
+                     alt="Annotated blood cell image">
+            </div>
+        </div>
+        <br>
+        <div class="results-container">
+            <!-- Add counts summary section -->
+            <div class="counts-summary">
+                <div class="count-item">
+                    <span class="count-label">RBC Count:</span>
+                    <span class="count-value">{{ counts.RBC }}</span>
                 </div>
-                
-                <div class="image-card annotated">
-                    <h2 class="image-title">Detection Results</h2>
-                    <img src="{{ url_for('static', filename='uploads/' + annotated) }}" 
-                         class="result-image" 
-                         alt="Annotated blood cell image">
+                <div class="count-item">
+                    <span class="count-label">WBC Count:</span>
+                    <span class="count-value">{{ counts.WBC }}</span>
+                </div>
+                <div class="count-item">
+                    <span class="count-label">Platelets Count:</span>
+                    <span class="count-value">{{ counts.Platelets }}</span>
                 </div>
             </div>
 
+            <div class="image-comparison">
+                <!-- ... existing image cards ... -->
+            </div>
+
             <div class="detections-box">
-                <h2 class="detections-title">Detected Elements</h2>
+                <h2 class="detections-title">Detected Elements ({{ detections|length }} total)</h2>
                 <div class="detections-list">
-                    {% for detection in detections %}
+                    {% for detection in detections|sort(attribute='confidence', reverse=True) %}
                     <div class="detection-item">
                         <span class="cell-type">{{ detection.class }}</span>
                         <span class="confidence">{{ detection.confidence }}</span>

@@ -30,7 +30,7 @@ def home():
             
             # Perform inference
             results = model.predict(filepath, imgsz=640)
-            
+            counts = {"RBC": 0, "WBC": 0, "Platelets": 0}
             # Process results
             detections = []
             for result in results:
@@ -39,6 +39,8 @@ def home():
                     cls_id = int(box.cls)
                     conf = float(box.conf)
                     class_name = model.names[cls_id]
+                    if class_name in counts:
+                        counts[class_name] += 1
                     detections.append({
                         "class": class_name,
                         "confidence": f"{conf:.2f}"
@@ -53,7 +55,8 @@ def home():
             return render_template("result.html",
                                  original=filename,
                                  annotated=annotated_filename,
-                                 detections=detections)
+                                 detections=detections,
+                                 counts=counts)
     
     return render_template("index.html")
 if __name__ == "__main__":

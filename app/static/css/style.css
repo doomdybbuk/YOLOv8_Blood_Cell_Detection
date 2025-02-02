@@ -178,6 +178,11 @@ body {
 .detections-list {
     display: grid;
     gap: 0.75rem;
+    max-height: 300px; /* Adjust height as needed */
+    overflow-y: auto; 
+    border: 1px solid #ddd; /* Optional: Add a border for clarity */
+    padding: 10px;
+    background: #f9f9f9; /* Optional: Light background */
 }
 
 .detection-item {
@@ -235,3 +240,32 @@ body {
         height: 300px;
     }
 }
+/* Counts summary styling */
+.counts-summary {
+    display: flex;
+    justify-content: space-around;
+    margin: 20px 0;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.count-item {
+    text-align: center;
+}
+
+.count-label {
+    display: block;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 5px;
+}
+
+.count-value {
+    font-size: 1.5em;
+    color: #3498db;
+    font-weight: bold;
+}
+
+/* Existing styles remain the same */
