@@ -39,3 +39,12 @@ Desktop.ini
 # Local configuration
 *.local
 *.cfg
+__pycache__/
+venv/
+*.pyc
+*.pyo
+*.pyd
+.DS_Store
+.env
+uploads/
+data/
