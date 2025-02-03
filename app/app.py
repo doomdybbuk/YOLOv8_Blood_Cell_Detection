@@ -4,11 +4,12 @@ import cv2
 from ultralytics import YOLO
 
 app = Flask(__name__)
-app.config["UPLOAD_FOLDER"] = "../app/static/uploads"
+# app.config["UPLOAD_FOLDER"] = "../app/static/uploads"
+app.config["UPLOAD_FOLDER"] = os.path.join(os.path.dirname(__file__), 'static', 'uploads')
 app.config["ALLOWED_EXTENSIONS"] = {"png", "jpg", "jpeg"}
 
 # Load trained model
-model = YOLO("../scripts//blood_cell_detection/blood_cell_detection7/weights/best.pt", task="detect")
+model = YOLO("../scripts/blood_cell_detection/blood_cell_detection7/weights/best.pt", task="detect")
 
 def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in app.config["ALLOWED_EXTENSIONS"]
