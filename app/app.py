@@ -37,13 +37,13 @@ def home():
                 boxes = result.boxes
                 for box in boxes:
                     cls_id = int(box.cls)
-                    conf = float(box.conf)
+                    conf = float(box.conf)  # Keep as float
                     class_name = model.names[cls_id]
                     if class_name in counts:
                         counts[class_name] += 1
                     detections.append({
                         "class": class_name,
-                        "confidence": f"{conf:.2f}"
+                        "confidence": conf  # Store as float, not string
                     })
             
             # Save annotated image
@@ -59,5 +59,6 @@ def home():
                                  counts=counts)
     
     return render_template("index.html")
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)

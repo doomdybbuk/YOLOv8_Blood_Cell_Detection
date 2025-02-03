@@ -3,57 +3,153 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detection Results</title>
+    <title>HemoVision - Detection Results</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        .confidence-bar {
+            background: #eee;
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+        
+        .confidence-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #e63946, #ff7aa8);
+            transition: width 0.5s ease;
+        }
+
+        .cell-type {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        .RBC { background: #ffebee; color: #e63946; }
+        .WBC { background: #e3f2fd; color: #2196f3; }
+        .Platelets { background: #f3e5f5; color: #9c27b0; }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .detection-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: white;
+            margin: 0.5rem 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: transform 0.2s ease;
+        }
+
+        .detection-item:hover {
+            transform: translateX(5px);
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <header class="header">
-            <h1 class="title">📊 Analysis Results</h1>
-            <a href="/" class="back-link">← New Analysis</a>
+            <div class="title-container">
+                <h1 class="title" style="margin-bottom: 0.5rem;">🔍 Analysis Results</h1>
+                <a href="/" class="back-link">← New Analysis</a>
+            </div>
+            <p class="subtitle">Detailed blood cell detection breakdown</p>
         </header>
-        <div class="results-container">
-            <div class="image-card annotated">
-                <h2 class="image-title">Detection Results</h2>
-                <img src="{{ url_for('static', filename='uploads/' + annotated) }}" 
-                     class="result-image" 
-                     alt="Annotated blood cell image">
+
+        <div class="grid-container">
+            <div class="stat-card">
+                <h3>Blood Cell Counts</h3>
+                <div class="counts-summary" style="margin-top: 1.5rem;">
+                    <div class="count-item">
+                        <div class="count-header">
+                            <span class="cell-type RBC">RBC</span>
+                            <span class="count-value">{{ counts.RBC }}</span>
+                        </div>
+                        <p class="count-sub">Red Blood Cells</p>
+                    </div>
+                    <div class="count-item" style="margin: 1.5rem 0;">
+                        <div class="count-header">
+                            <span class="cell-type WBC">WBC</span>
+                            <span class="count-value">{{ counts.WBC }}</span>
+                        </div>
+                        <p class="count-sub">White Blood Cells</p>
+                    </div>
+                    <div class="count-item">
+                        <div class="count-header">
+                            <span class="cell-type Platelets">Platelets</span>
+                            <span class="count-value">{{ counts.Platelets }}</span>
+                        </div>
+                        <p class="count-sub">Platelet Cells</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="image-card annotated stat-card">
+                <h3>Annotated Image</h3>
+                <div class="image-container" style="margin-top: 1.5rem;">
+                    <img src="{{ url_for('static', filename='uploads/' + annotated) }}" 
+                         class="result-image" 
+                         alt="Annotated blood cell image"
+                         style="width: 100%; border-radius: 8px; border: 1px solid #eee;">
+                </div>
             </div>
         </div>
-        <br>
-        <div class="results-container">
-            <!-- Add counts summary section -->
-            <div class="counts-summary">
-                <div class="count-item">
-                    <span class="count-label">RBC Count:</span>
-                    <span class="count-value">{{ counts.RBC }}</span>
-                </div>
-                <div class="count-item">
-                    <span class="count-label">WBC Count:</span>
-                    <span class="count-value">{{ counts.WBC }}</span>
-                </div>
-                <div class="count-item">
-                    <span class="count-label">Platelets Count:</span>
-                    <span class="count-value">{{ counts.Platelets }}</span>
-                </div>
-            </div>
 
-            <div class="image-comparison">
-                <!-- ... existing image cards ... -->
-            </div>
-
-            <div class="detections-box">
-                <h2 class="detections-title">Detected Elements ({{ detections|length }} total)</h2>
-                <div class="detections-list">
-                    {% for detection in detections|sort(attribute='confidence', reverse=True) %}
-                    <div class="detection-item">
-                        <span class="cell-type">{{ detection.class }}</span>
-                        <span class="confidence">{{ detection.confidence }}</span>
+        <div class="stat-card" style="margin-top: 2rem;">
+            <h3>Detection Details ({{ detections|length }} total elements)</h3>
+            <div class="detections-list" style="margin-top: 1.5rem;">
+                {% for detection in detections|sort(attribute='confidence', reverse=True) %}
+                <div class="detection-item">
+                    <div>
+                        <span class="cell-type {{ detection.class }}">{{ detection.class }}</span>
+                        <div class="confidence-bar">
+                            <div class="confidence-fill" style="width: {{ detection.confidence * 100 }}%"></div>
+                        </div>
                     </div>
-                    {% endfor %}
+                    <span class="confidence" style="color: #666; font-weight: 500;">
+                        {{ "%.2f"|format(detection.confidence * 100) }}%
+                    </span>
                 </div>
+                {% endfor %}
             </div>
         </div>
     </div>
+
+    <script>
+        // Add smooth scroll behavior
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Animate progress bars on load
+        window.addEventListener('load', () => {
+            document.querySelectorAll('.confidence-fill').forEach(bar => {
+                const targetWidth = bar.style.width;
+                bar.style.width = '0';
+                setTimeout(() => bar.style.width = targetWidth, 100);
+            });
+        });
+    </script>
 </body>
 </html>
